@@ -1,4 +1,5 @@
 // Network, contract and method configuration for SLA Guard.
+import { testnetBradbury } from "genlayer-js/chains"
 
 export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000"
 
@@ -11,7 +12,7 @@ export const CONTRACT_ADDRESS =
 export const RPC_ENDPOINT =
 	import.meta.env.VITE_GENLAYER_RPC ?? "https://bradbury.genlayer.fastnode.io"
 
-export const CHAIN_ID = Number(import.meta.env.VITE_CHAIN_ID ?? 41234)
+export const CHAIN_ID = Number(import.meta.env.VITE_CHAIN_ID ?? testnetBradbury.id)
 
 export const CHAIN_ID_HEX = "0x" + CHAIN_ID.toString(16)
 
@@ -20,18 +21,15 @@ export const EXPLORER_URL = "https://explorer-bradbury.genlayer.com"
 export const IS_CONTRACT_CONFIGURED =
 	CONTRACT_ADDRESS.toLowerCase() !== ZERO_ADDRESS
 
+// Official SDK chain config - keeps the client's decoder in sync with the
+// protocol actually running on Bradbury. Override only the RPC URL if the
+// user supplied a custom one via VITE_GENLAYER_RPC.
 export const bradburyChain = {
-	id: CHAIN_ID,
-	name: "GenLayer Bradbury Testnet",
-	nativeCurrency: { name: "GenLayer Token", symbol: "GEN", decimals: 18 },
+	...testnetBradbury,
 	rpcUrls: {
 		default: { http: [RPC_ENDPOINT] },
 		public: { http: [RPC_ENDPOINT] },
 	},
-	blockExplorers: {
-		default: { name: "GenLayer Explorer", url: EXPLORER_URL },
-	},
-	testnet: true,
 }
 
 export const metamaskChainParams = {
