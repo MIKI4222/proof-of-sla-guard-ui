@@ -26,10 +26,14 @@ export const IS_CONTRACT_CONFIGURED =
 // user supplied a custom one via VITE_GENLAYER_RPC.
 export const bradburyChain = {
 	...testnetBradbury,
-	rpcUrls: {
-		default: { http: [RPC_ENDPOINT] },
-		public: { http: [RPC_ENDPOINT] },
-	},
+	...(import.meta.env.VITE_GENLAYER_RPC
+		? {
+				rpcUrls: {
+					default: { http: [RPC_ENDPOINT] },
+					public: { http: [RPC_ENDPOINT] },
+				},
+			}
+		: {}),
 }
 
 export const metamaskChainParams = {
